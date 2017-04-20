@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>io.cloudlib.spring.cloud</groupId>
+	<artifactId>microservice-starter</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<!-- <dropwizard-metrics.version>3.1.2</dropwizard-metrics.version> -->
+		<sonar.exclusions>**/model/**, **/configuration/*, **/Application.java, **/swagger/HomeController.java</sonar.exclusions>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>full-stack</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>io.cloudlib.spring.cloud</groupId>
+					<artifactId>microservice-autoconfigure</artifactId>
+					<version>0.0.1</version>
+				</dependency>
+				<dependency>
+			    	<groupId>io.cloudlib.spring.cloud</groupId>
+					<artifactId>microservice-metrics</artifactId>
+					<version>0.0.1</version>
+			    </dependency>
+		 
+				 <dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-actuator</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-eureka</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-config</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-hystrix</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-ribbon</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<!--<artifactId>spring-cloud-sleuth-stream</artifactId>-->
+					<artifactId>spring-cloud-starter-zipkin</artifactId>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-stream-kafka</artifactId>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-security</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.security.oauth</groupId>
+					<artifactId>spring-security-oauth2</artifactId>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjtools</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjweaver</artifactId>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-test</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.security</groupId>
+					<artifactId>spring-security-test</artifactId>
+				</dependency>
+		
+				
+				<dependency>
+					<groupId>com.github.danielwegener</groupId>
+					<artifactId>logback-kafka-appender</artifactId>
+					<version>0.1.0</version>
+				</dependency>
+				<dependency>
+					<groupId>net.logstash.logback</groupId>
+					<artifactId>logstash-logback-encoder</artifactId>
+					<version>4.7</version>
+				</dependency>
+				
+				<dependency>
+            		<groupId>org.jacoco</groupId>
+           	 		<artifactId>jacoco-maven-plugin</artifactId>
+            		<version>0.7.5.201505241946</version>
+        		</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<!-- Start Cobertura -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>cobertura-maven-plugin</artifactId>
+						<configuration>
+							<instrumentation>
+								<excludes>
+									<exclude>com/csl/spring/cloud/*.class</exclude>
+								</excludes>
+							</instrumentation>
+							<formats>
+								<format>html</format>
+								<format>xml</format>
+							</formats>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- End Cobertura -->
+					<!-- Start Sonarqube -->
+					<plugin>
+						<groupId>org.sonarsource.scanner.maven</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
+						<version>3.0.2</version>
+					</plugin>
+					<!-- End Sonarqube -->
+				<!-- JaCoCo Maven plugin -->
+	            <plugin>
+	                <groupId>org.jacoco</groupId>
+	                <artifactId>jacoco-maven-plugin</artifactId>
+	                <version>0.7.5.201505241946</version>
+                	<configuration> 
+	                	<excludes>
+	                		<exclude>com/csl/spring/cloud/model/**/*</exclude>
+	                		<exclude>com/csl/spring/cloud/configuration/**/*</exclude>
+	                		<exclude>com/csl/spring/cloud/*.class</exclude>
+	                	</excludes>
+	                </configuration>
+	                <executions>
+	                    <execution>
+	                        <id>default-prepare-agent</id>
+	                        <goals>
+	                            <goal>prepare-agent</goal>
+	                        </goals>
+	                    </execution>
+	                    <execution>
+	                        <id>default-report</id>
+	                        <phase>prepare-package</phase>
+	                        <goals>
+	                            <goal>report</goal>
+	                        </goals>
+	                    </execution>
+	                </executions>
+	            </plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>local</id>
+			<activation>
+				<property>
+					<name>local</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>io.cloudlib.spring.cloud</groupId>
+					<artifactId>microservice-autoconfigure</artifactId>
+					<version>0.0.1</version>
+				</dependency>
+				<dependency>
+			    	<groupId>io.cloudlib.spring.cloud</groupId>
+					<artifactId>microservice-metrics</artifactId>
+					<version>0.0.1</version>
+			    </dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-actuator</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-config</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-security</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.security.oauth</groupId>
+					<artifactId>spring-security-oauth2</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-test</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>1.5.2.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Dalston.RC1</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.pivotal.spring.cloud</groupId>
+				<artifactId>spring-cloud-services-dependencies</artifactId>
+				<version>1.4.1.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	
+	<!--
+	<distributionManagement>
+	    <repository>
+	        <id>central</id>
+	        <name>cloudlib-maven-release-local</name>
+	        <url>http://artifactory.jfrog.com/artifactory/cloudlib-maven-release-local</url>
+	    </repository>
+	    <snapshotRepository>
+	        <id>snapshots</id>
+	        <name>cloudlib-maven-snapshot-local</name>
+	        <url>http://artifactory.jfrog.com/artifactory/cloudlib-maven-snapshots-local</url>
+	    </snapshotRepository>
+	</distributionManagement>
+-->
+</project>
